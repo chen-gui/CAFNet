@@ -20,17 +20,17 @@ BibTeX:
 	  pages={TBD},
 	  year={2026}
 	}
-
+-----------
 ## Scientific Application
 
 CAFNet is designed for scientific workflows involving distributed acoustic sensing (DAS), where high‐resolution seismic information is often obscured by strong random and coherent noise. The proposed unsupervised framework enables researchers to denoise large‐scale DAS recordings without the need for curated clean datasets, making it particularly suitable for real-world observational studies.
 
 By enhancing signal clarity and preserving coherent seismic phases, CAFNet facilitates multiple downstream scientific tasks, including:
-	*	Earthquake detection and arrival picking
-	*	Microseismic monitoring in carbon storage, geothermal, and oil & gas applications
-	*	Ambient noise analysis and interferometry
-	*	Distributed strain-rate and ground motion characterization
-	*	Time-lapse subsurface imaging using DAS
+* Earthquake detection and arrival picking
+* Microseismic monitoring in carbon storage, geothermal, and oil & gas applications
+* Ambient noise analysis and interferometry
+* Distributed strain-rate and ground motion characterization
+* Time-lapse subsurface imaging using DAS
 
 -----------
 ## Copyright
