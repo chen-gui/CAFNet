@@ -17,7 +17,7 @@ from CG_patch_unpatch2D_3D import cg_patch, cg_patch_inv
 from collections import defaultdict
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-subset = np.load("Eureka_20251115/Eureka-DT1087-2m-P5kHz-fs250Hz_2022-06-18T112221Z_subset.npz")
+subset = np.load("Eureka-DT1087-2m-P5kHz-fs250Hz_2022-06-18T112221Z_subset.npz")
 raw = subset["data"]
 x = subset["xlabel"]
 t = subset["tlabel"]
@@ -37,12 +37,11 @@ print(input_patch.shape)
 
 train_dataset = torch.utils.data.TensorDataset(input_patch, input_patch)
 
-trainloader = torch.utils.data.DataLoader(train_dataset, batch_size=256, shuffle=True)
+trainloader = torch.utils.data.DataLoader(train_dataset, batch_size=512, shuffle=True)
 testloader = torch.utils.data.DataLoader(train_dataset, batch_size=5000, shuffle=False)
 
 net = NFADNet(in_C=time_size*trace_size, hidden_C=512).to(device)
 optimizer = optim.Adam(net.parameters(), lr=5e-4)
-lossfun = nn.MSELoss()
 num_epoch = 10
 show_interval = 10
 total_loss = []
@@ -81,20 +80,4 @@ for epoch in range(num_epoch):
 
         denoised_data = cg_patch_inv(out_data[1:].squeeze().numpy().T, n1, n2, l1=time_size, l2=trace_size, o1=time_shift, o2=trace_shift)
 
-        # np.save('Eureka_20251115/Eureka-DT1087-2m-P5kHz-fs250Hz_2022-06-18T112221Z_subset-pro-{}.npy'.format(int(epoch + 1)), denoised_data)
 
-        clip = 2
-        kwargs_imshow = dict(vmin=-clip, vmax=clip, interpolation='none', aspect='auto', cmap=cseis(),
-                             extent=(x.min(), x.max(), t.max(), t.min()))
-        _, ax = plt.subplots(1, 3, figsize=(13, 5), sharex=True, sharey=True)
-        ax[0].imshow(raw, **kwargs_imshow)
-        ax[0].set_title("raw")
-
-        ax[1].imshow(denoised_data, **kwargs_imshow)
-        ax[1].set_title("denoised_data")
-
-        ax[2].imshow(raw-denoised_data, **kwargs_imshow)
-        ax[2].set_title("Removed noise")
-        plt.tight_layout()
-        plt.show()
-# np.save('Discussion/LossCurve-pro-Eureka_DAS.npy', np.array(total_loss, dtype=np.float32))
