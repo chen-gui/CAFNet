@@ -18,7 +18,7 @@ from collections import defaultdict
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 normalize = lambda x: (x - np.mean(x)) / np.std(x)
-raw = np.load("SAFOD/BP-2017-07-04T23_36_30.660000Z_mag1.51.npy")
+raw = np.load("BP-2017-07-04T23_36_30.660000Z_mag1.51.npy")
 print(raw.shape, raw.min(), raw.max())
 dt = 0.004
 nx = raw.shape[0]
@@ -29,11 +29,8 @@ tslice = slice(2500, 6250)
 raw = raw[tslice, :]
 t = t[tslice]
 
-# bpmf = mf(raw,5,1,2)
-bpmf = np.load("SAFOD/BP_MF-2017-07-04T23_36_30.660000Z_mag1.51.npy")
+bpmf = np.load("BP_MF-2017-07-04T23_36_30.660000Z_mag1.51.npy")
 bpmf = bpmf[tslice, :]
-# np.save('SAFOD/2017-07-01T04_34_14.800000Z_mag1.36-subset-BP.npy', raw)
-# np.save('SAFOD_20251115/BP_MF-2017-07-04T23_36_30.660000Z_mag1.51_tslice2500_6250.npy', bpmf)
 
 raw_norm = raw/1e-14
 bpmf_norm = bpmf/1e-14
@@ -52,12 +49,11 @@ print(input_patch.shape)
 
 train_dataset = torch.utils.data.TensorDataset(input_patch, input_patch)
 
-trainloader = torch.utils.data.DataLoader(train_dataset, batch_size=1024, shuffle=True)
+trainloader = torch.utils.data.DataLoader(train_dataset, batch_size=512, shuffle=True)
 testloader = torch.utils.data.DataLoader(train_dataset, batch_size=5000, shuffle=False)
 
 net = NFADNet(in_C=time_size*trace_size, hidden_C=512).to(device)
-optimizer = optim.Adam(net.parameters(), lr=2e-4)
-lossfun = nn.MSELoss()
+optimizer = optim.Adam(net.parameters(), lr=5e-4)
 num_epoch = 10
 show_interval = 10
 total_loss = []
@@ -96,23 +92,3 @@ for epoch in range(num_epoch):
 
         denoised_data = cg_patch_inv(out_data[1:].squeeze().numpy().T, n1, n2, l1=time_size, l2=trace_size, o1=time_shift, o2=trace_shift)
         denoised_data = denoised_data * 1e-14
-        # np.save('SAFOD_20251115/BP_MF-2017-07-04T23_36_30.660000Z_mag1.51-Pro-{}.npy'.format(int(epoch + 1)), denoised_data)
-
-        clip = 1e-13
-        kwargs_imshow = dict(vmin=-clip, vmax=clip, interpolation='none', aspect='auto', cmap=cseis(),
-                             extent=(x.min(), x.max(), t.max(), t.min()))
-        _, ax = plt.subplots(1, 4, figsize=(15, 5), sharex=True, sharey=True)
-        ax[0].imshow(bpmf, **kwargs_imshow)
-        ax[0].set_title("raw")
-
-        ax[1].imshow(denoised_data, **kwargs_imshow)
-        ax[1].set_title("denoised_data")
-
-        ax[2].imshow(bpmf-denoised_data, **kwargs_imshow)
-        ax[2].set_title("Removed noise")
-
-        ax[3].imshow(bpmf, **kwargs_imshow)
-        ax[3].set_title("bpmf Removed noise")
-        plt.tight_layout()
-        plt.show()
-# np.save('Discussion/LossCurve-pro-SAFOD_DAS.npy', np.array(total_loss, dtype=np.float32))
