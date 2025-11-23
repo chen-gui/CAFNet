@@ -98,8 +98,6 @@ STA/LTA-based first-arrival picks (red circles) for the second FORGE DAS data. (
 <img src='https://github.com/chen-gui/CAFNet/blob/main/fig/STALTA-picks.png' alt='Slicing' width=960/>
 
 -----------
-
------------
 ## Dependence Packages
 * numpy
 * torch 
