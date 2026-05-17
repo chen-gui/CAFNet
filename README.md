@@ -6,19 +6,15 @@
 This repository provides the implementation of CAFNet, a robust unsupervised deep learning framework for denoising distributed acoustic sensing (DAS) data without requiring clean labels. CAFNet is a two-stage cascaded network consisting of a coarse module followed by a refined module. Each stage is built with fully connected layers, KAN network-based learnable activation functions, and attention mechanisms to adaptively capture coherent seismic signals.
 
 ## Reference
-    Chen et al. (2025). Towards robust DAS denoising via unsupervised deep learning: The FORGE, Arcata–Eureka, and SAFOD examples, TBD.
+    Chen G, Liu Y, Zhang M. Towards robust DAS denoising via unsupervised deep learning: The FORGE, Arcata–Eureka, and SAFOD examples[J]. Earthquake Science, 2026.
     
 BibTeX:
 
-	@article{CAFNet,
-	  title={Towards robust DAS denoising via unsupervised deep learning: The FORGE, Arcata–Eureka, and SAFOD examples},
-	  author={Chen et al.},
-	  journal={Earthquake Science},
-	  volume={TBD},
-	  number={TBD},
-	  issue={TBD},
-	  pages={TBD},
-	  year={2026}
+	@article{chen2026towards,
+  	title={Towards robust DAS denoising via unsupervised deep learning: The FORGE, Arcata--Eureka, and SAFOD examples},
+  	author={Chen, Gui and Liu, Yang and Zhang, Mi},
+  	journal={Earthquake Science},
+  	year={2026}
 	}
 -----------
 ## Scientific Application
