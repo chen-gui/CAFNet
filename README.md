@@ -13,7 +13,7 @@ BibTeX:
 	@article{CAFNet,
 	  title={Towards robust DAS denoising via unsupervised deep learning: The FORGE, Arcata–Eureka, and SAFOD examples},
 	  author={Chen et al.},
-	  journal={TBD},
+	  journal={Earthquake Science},
 	  volume={TBD},
 	  number={TBD},
 	  issue={TBD},
